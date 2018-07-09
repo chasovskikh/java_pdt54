@@ -15,11 +15,10 @@ public class FirstProgram {
     System.out.println("Площадь прямоугольника со сторонами " + r.a + " и " + r.b + " = " + r.area());
 
     //function
-    distance(2.12, 3.56, -4.09, 5);
-
+    distance(-2.32, 5.0, 15, -9.8);
 
     //class
-    Point p = new Point(1.0, -2.8, 3.13, 6.54);
+    Point p = new Point(1,2,1,4);
     System.out.println("Расстояние между точкой А с координатами (" + p.x1 + ";" + p.y1 + ") и точкой В с координатами (" + p.x2 + ";" + p.y2 + ") = " + p.distance());
   }
 
