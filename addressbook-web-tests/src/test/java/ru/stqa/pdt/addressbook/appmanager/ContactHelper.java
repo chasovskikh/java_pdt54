@@ -6,9 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pdt.addressbook.model.ContactData;
-import ru.stqa.pdt.addressbook.model.GroupData;
-
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +64,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void initDetailsSelectionContact() {
-    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[7]/a/img"));
+    click(By.xpath("div/div[4]/form[2]/table/tbody/tr[2]/td[7]/a/img"));
   }
 
   public void initModifyContact() {
@@ -91,11 +88,14 @@ public class ContactHelper extends HelperBase {
   }
 
   public List<ContactData> getContactList() {
-    List<ContactData> contacts = new ArrayList<ContactData>();
-    List<WebElement> elements = wd.findElements(By.name("selected[]"));
+    List<ContactData> contacts = new ArrayList<>();
+    List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
-      String name = element.getText();
-      ContactData contact = new ContactData(name, null, null, null, null, null, null);
+      List<WebElement> content = element.findElements(By.tagName("td"));
+      String lastname = content.get(1).getText();
+      String firstname = content.get(2).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      ContactData contact = new ContactData(id, firstname, lastname, null, null, null, null, null);
       contacts.add(contact);
     }
     return contacts;
