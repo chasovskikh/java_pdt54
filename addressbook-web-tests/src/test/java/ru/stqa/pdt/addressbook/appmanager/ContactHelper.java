@@ -3,8 +3,6 @@ package ru.stqa.pdt.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import ru.stqa.pdt.addressbook.model.ContactData;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +69,33 @@ public class ContactHelper extends HelperBase {
     click(By.name("modifiy"));
   }
 
-  public void createContact(ContactData contact) {
+  public void create(ContactData contact) {
     initContactCreation();
-    fillContactForm(new ContactData("Ann", "Chasovskikh",
-            "ann_chasovskikh", "Novosibirsk", "+78548960052", "annChas@gmail.com", "test1"), true);
+    fillContactForm(contact, true);
     submitContactCreation();
     returnToHomePage();
+  }
+
+  public void modifyContactsAll(ContactData contact) {
+    fillContactForm(contact, false);
+    submitContactModification();
+    returnToHomePage();
+  }
+  public void modify(int index, ContactData contact) {
+    initContactModification(index);
+    modifyContactsAll(contact);
+  }
+
+  public void modifyFromDetails(int index, ContactData contact) {
+    initDetailsSelectionContact(index);
+    initModifyContact();
+    modifyContactsAll(contact);
+  }
+
+  public void delete(int index) {
+    selectContact(index);
+    deleteSelectionContact();
+    submitDeleteContact();
   }
 
   public boolean isThereAContact() {
@@ -87,7 +106,7 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactData> getContactList() {
+  public List<ContactData> list() {
     List<ContactData> contacts = new ArrayList<>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
