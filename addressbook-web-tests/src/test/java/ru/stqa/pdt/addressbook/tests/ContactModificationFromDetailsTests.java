@@ -7,17 +7,16 @@ import ru.stqa.pdt.addressbook.model.Contacts;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class ContactModificationFromDetailsTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().homePage();
-    if (app.contact().list().size() == 0) {
+    if (app.contact().all().size() == 0) {
       app.contact().create(new ContactData()
               .withFirstname("Ann").withLastname("Chasovskikh").withNickname("ann_chasovskikh")
-              .withAddress("Novosibirsk").withMobile("+78548960052").withEmail("annChas@gmail.com").withGroup("test1"));
+              .withAddress("Novosibirsk").withHomePhone("123456").withMobilePhone("+78548960052").withWorkPhone("123454321").withGroup("test1"));
     }
   }
 
@@ -27,11 +26,11 @@ public class ContactModificationFromDetailsTests extends TestBase {
     ContactData modifiedContact = before.iterator().next();
     ContactData contact = new ContactData()
             .withId(modifiedContact.getId()).withFirstname("Ann").withLastname("Chasovskikh").withNickname("ann_chasovskikh")
-            .withAddress("Novosibirsk").withMobile("+78548960052").withEmail("annChas@gmail.com").withGroup("test1");
+            .withAddress("Novosibirsk").withHomePhone("123456").withMobilePhone("+78548960052").withWorkPhone("123454321").withGroup("test1");
 
     app.contact().modifyFromDetails(contact);
+    assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();
-    assertEquals(after.size(), before.size());
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
   }
 
