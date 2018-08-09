@@ -27,6 +27,8 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("work"),contactData.getWorkPhone());
     type(By.name("email"), contactData.getEmail());
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
 
 //    if (creation) {
 //      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -103,11 +105,17 @@ public class ContactHelper extends HelperBase {
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
     String nickname = wd.findElement(By.name("nickname")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
     String homePhone = wd.findElement(By.name("home")).getAttribute("value");
     String mobilePhone = wd.findElement(By.name("mobile")).getAttribute("value");
     String workPhone = wd.findElement(By.name("work")).getAttribute("value");
-    return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withNickname(nickname).withHomePhone(homePhone)
-            .withMobilePhone(mobilePhone).withWorkPhone(workPhone);
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+    return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withNickname(nickname)
+            .withAddress(address)
+            .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone)
+            .withEmail(email).withEmail2(email2).withEmail3(email3);
   }
 
   public void delete(ContactData contact) {
@@ -132,26 +140,18 @@ public class ContactHelper extends HelperBase {
       return new Contacts(contactCache);
     }
     contactCache = new Contacts();
-//    List<WebElement> elements = wd.findElements(By.name("entry"));
     List<WebElement> rows = wd.findElements(By.name("entry"));
     for (WebElement row : rows) {
       List<WebElement> cells = row.findElements(By.tagName("td"));
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
       String lastname = cells.get(1).getText();
       String firstname = cells.get(2).getText();
-      String[] phones = cells.get(5).getText().split("\n");
+      String address = cells.get(3).getText();
+      String allEmail = cells.get(4).getText();
+      String allPhones = cells.get(5).getText();
       contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
-              .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
+              .withAddress(address).withAllPhones(allPhones).withAllEmail(allEmail));
     }
-//    for (WebElement element : elements) {
-//      List<WebElement> content = element.findElements(By.tagName("td"));
-//      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-//      String lastname = content.get(1).getText();
-//      String firstname = content.get(2).getText();
-//      String[] phones = content.get(6).getText().split("\n");
-//      contactCache.add(new ContactData().withId(id).withFirstname(firstname).
-//              withLastname(lastname).withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
-//    }
     return new Contacts(contactCache);
 
   }
