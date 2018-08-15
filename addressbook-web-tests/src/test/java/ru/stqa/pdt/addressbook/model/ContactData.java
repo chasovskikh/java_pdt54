@@ -1,8 +1,15 @@
 package ru.stqa.pdt.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias("contact")
 public class ContactData {
+
+  @XStreamOmitField
   private int id = Integer.MAX_VALUE;
   private String firstname;
   private String lastname;
@@ -17,6 +24,7 @@ public class ContactData {
   private String email3;
   private String allEmail;
   private String group;
+  private File photo;
 
   public String getAllPhones() {
     return allPhones;
@@ -84,6 +92,9 @@ public class ContactData {
     return group;
   }
 
+  public File getPhoto() {
+    return photo;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -167,6 +178,11 @@ public class ContactData {
 
   public ContactData withGroup(String group) {
     this.group = group;
+    return this;
+  }
+
+  public ContactData withPhoto(File photo) {
+    this.photo = photo;
     return this;
   }
 
