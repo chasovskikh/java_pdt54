@@ -24,12 +24,24 @@ public class ContactData {
   private String firstname;
 
   @Expose
+  @Column(name = "middlename")
+  private String middlename;
+
+  @Expose
   @Column(name = "lastname")
   private String lastname;
 
   @Expose
   @Column(name = "nickname")
   private String nickname;
+
+  @Expose
+  @Column(name = "company")
+  private String company;
+
+  @Expose
+  @Column(name = "title")
+  private String title;
 
   @Expose
   @Column(name = "address")
@@ -50,6 +62,11 @@ public class ContactData {
   @Column(name = "work")
   @Type(type = "text")
   private String workPhone;
+
+  @Expose
+  @Column(name = "fax")
+  @Type(type = "text")
+  private String fax;
 
   @Expose
   @Transient
@@ -109,12 +126,24 @@ public class ContactData {
     return firstname;
   }
 
+  public String getMiddlename() {
+    return middlename;
+  }
+
   public String getLastname() {
     return lastname;
   }
 
   public String getNickname() {
     return nickname;
+  }
+
+  public String getCompany() {
+    return company;
+  }
+
+  public String getTitle() {
+    return title;
   }
 
   public String getAddress() {
@@ -133,6 +162,10 @@ public class ContactData {
     return workPhone;
   }
 
+  public String getFax() {
+    return fax;
+  }
+
   public String getEmail() {
     return email;
   }
@@ -149,9 +182,9 @@ public class ContactData {
     return group;
   }
 
-  public File getPhoto() {
-    return new File(photo);
-  }
+//  public File getPhoto() {
+//    return new File(photo);
+//  }
 
   @Override
   public boolean equals(Object o) {
@@ -160,21 +193,45 @@ public class ContactData {
     ContactData that = (ContactData) o;
     return id == that.id &&
             Objects.equals(firstname, that.firstname) &&
-            Objects.equals(lastname, that.lastname);
+            Objects.equals(middlename, that.middlename) &&
+            Objects.equals(lastname, that.lastname) &&
+            Objects.equals(nickname, that.nickname) &&
+            Objects.equals(company, that.company) &&
+            Objects.equals(title, that.title) &&
+            Objects.equals(address, that.address) &&
+            Objects.equals(homePhone, that.homePhone) &&
+            Objects.equals(mobilePhone, that.mobilePhone) &&
+            Objects.equals(workPhone, that.workPhone) &&
+            Objects.equals(fax, that.fax) &&
+            Objects.equals(email, that.email) &&
+            Objects.equals(email2, that.email2) &&
+            Objects.equals(email3, that.email3);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(id, firstname, lastname);
+    return Objects.hash(id, firstname, middlename, lastname, nickname, company, title, address, homePhone, mobilePhone, workPhone, fax, email, email2, email3);
   }
 
   @Override
   public String toString() {
     return "ContactData{" +
-            "id='" + id + '\'' +
+            "id=" + id +
             ", firstname='" + firstname + '\'' +
+            ", middlename='" + middlename + '\'' +
             ", lastname='" + lastname + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", company='" + company + '\'' +
+            ", title='" + title + '\'' +
+            ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", fax='" + fax + '\'' +
+            ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
             '}';
   }
 
@@ -188,6 +245,11 @@ public class ContactData {
     return this;
   }
 
+  public ContactData withMiddlename(String middlename) {
+    this.middlename = middlename;
+    return this;
+  }
+
   public ContactData withLastname(String lastname) {
     this.lastname = lastname;
     return this;
@@ -195,6 +257,16 @@ public class ContactData {
 
   public ContactData withNickname(String nickname) {
     this.nickname = nickname;
+    return this;
+  }
+
+  public ContactData withCompany(String company) {
+    this.company = company;
+    return this;
+  }
+
+  public ContactData withTitle(String title) {
+    this.title = title;
     return this;
   }
 
@@ -215,6 +287,11 @@ public class ContactData {
 
   public ContactData withWorkPhone(String workPhone) {
     this.workPhone = workPhone;
+    return this;
+  }
+
+  public ContactData withFax(String fax) {
+    this.fax = fax;
     return this;
   }
 

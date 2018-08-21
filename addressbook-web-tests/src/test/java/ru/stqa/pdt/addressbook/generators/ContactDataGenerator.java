@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ContactDataGenerator {
 
-  @Parameter(names = "-c", description = "Group count")
+  @Parameter(names = "-c", description = "Contact count")
   public int count;
 
   @Parameter(names = "-f", description = "Target file")
@@ -74,9 +74,9 @@ public class ContactDataGenerator {
   private static void saveAsCsv(List<ContactData> contacts, File file) throws IOException {
     try (Writer writer = new FileWriter(file)) {
       for (ContactData contact : contacts) {
-        writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getLastname(), contact.getNickname(),
-                contact.getAddress(), contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone(),
-                contact.getEmail(), contact.getEmail2(), contact.getEmail3()));
+        writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n", contact.getFirstname(), contact.getMiddlename(), contact.getLastname(), contact.getNickname(),
+                contact.getCompany(), contact.getTitle(), contact.getAddress(), contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone(),
+                contact.getFax(), contact.getEmail(), contact.getEmail2(), contact.getEmail3()));
       }
     }
   }
@@ -84,10 +84,11 @@ public class ContactDataGenerator {
   private static List<ContactData> generateContact(int count) {
     List<ContactData> contacts = new ArrayList<ContactData>();
     for (int i = 0; i < count; i++) {
-      contacts.add(new ContactData().withFirstname(String.format("firstName %s", i))
-              .withLastname(String.format("lastName %s", i)).withNickname(String.format("nickName %s", i)).withAddress(String.format("address %s", i))
+      contacts.add(new ContactData().withFirstname(String.format("firstName %s", i)).withMiddlename(String.format("middleName %s", i))
+              .withLastname(String.format("lastName %s", i)).withNickname(String.format("nickName %s", i))
+              .withCompany(String.format("company %s", i)).withTitle(String.format("title %s", i)).withAddress(String.format("address %s", i))
               .withHomePhone(String.format("homePhone %s", i)).withMobilePhone(String.format("mobilePhone %s", i)).withWorkPhone(String.format("workPhone %s", i))
-              .withEmail(String.format("Email %s", i)).withEmail2(String.format("Email2 %s", i)).withEmail3(String.format("Email3 %s", i)));
+              .withFax(String.format("fax %s", i)).withEmail(String.format("Email %s", i)).withEmail2(String.format("Email2 %s", i)).withEmail3(String.format("Email3 %s", i)));
     }
     return contacts;
   }

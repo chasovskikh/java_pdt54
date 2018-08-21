@@ -58,11 +58,11 @@ public class ContactCreationTests extends TestBase {
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData contact) {
     app.goTo().homePage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/images.jpg");
     app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.withAdded(
             contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
@@ -70,15 +70,16 @@ public class ContactCreationTests extends TestBase {
   @Test(enabled = false)
   public void testBadContactCreation() {
     app.goTo().homePage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/images.jpg");
     ContactData contact = new ContactData()
-            .withFirstname("Anny'").withLastname("Chasovskikh").withNickname("ann_chasovskikh")
-            .withAddress("Novosibirsk").withHomePhone("123456").withMobilePhone("+78548960052").withWorkPhone("123454321").
-                    withEmail("annChas@gmail.com").withPhoto(photo);
+            .withFirstname("Anny").withMiddlename("Test2").withLastname("Chasovskikh").withNickname("ann_chasovskikh")
+            .withCompany("testCompany").withTitle("Test Title")
+            .withAddress("Novosibirsk").withHomePhone("123456").withMobilePhone("+78548960052").withWorkPhone("123454321")
+            .withFax("+78549630256").withEmail("annChas@gmail.com").withPhoto(photo);
     app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size()));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(before));
   }
 
