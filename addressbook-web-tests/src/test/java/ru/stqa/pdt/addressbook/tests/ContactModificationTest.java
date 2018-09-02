@@ -4,6 +4,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pdt.addressbook.model.ContactData;
 import ru.stqa.pdt.addressbook.model.Contacts;
+import ru.stqa.pdt.addressbook.model.GroupData;
+import ru.stqa.pdt.addressbook.model.Groups;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +19,8 @@ public class ContactModificationTest extends TestBase {
       app.goTo().homePage();
       app.contact().create(new ContactData()
               .withFirstname("Ann").withLastname("Chasovskikh").withNickname("ann_chasovskikh")
-              .withAddress("Novosibirsk").withHomePhone("1234567890").withMobilePhone("+78548960052").withWorkPhone("0987654321").withEmail("annChas@gmail.com").withGroup("test1"));
+              .withAddress("Novosibirsk").withHomePhone("1234567890").withMobilePhone("+78548960052").withWorkPhone("0987654321")
+              .withEmail("annChas@gmail.com"));
     }
   }
 
@@ -34,6 +37,7 @@ public class ContactModificationTest extends TestBase {
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
+    verifyContactListInUI();
   }
 
 }

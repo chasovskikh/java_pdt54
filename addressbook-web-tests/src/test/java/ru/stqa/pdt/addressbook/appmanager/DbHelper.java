@@ -47,4 +47,10 @@ public class DbHelper {
     session.close();
     return new Contacts(result);
   }
+
+  public void refresh(Object contactpage){
+    Session session = sessionFactory.openSession();
+    session.refresh(contactpage);
+    session.close();
+  }
 }

@@ -1,10 +1,14 @@
 package ru.stqa.pdt.addressbook.appmanager;
 
+import org.hibernate.Session;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pdt.addressbook.model.ContactData;
 import ru.stqa.pdt.addressbook.model.Contacts;
+import ru.stqa.pdt.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -35,16 +39,23 @@ public class ContactHelper extends HelperBase {
     type(By.name("email3"), contactData.getEmail3());
 //    attach(By.name("photo"), contactData.getPhoto());
 
-//    if (creation) {
-//      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-//    } else {
-//      Assert.assertFalse(isElementPresent(By.name("new_group")));
-//    }
+    if (creation) {
+      if (contactData.getGroups().size() > 0 ) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+      }
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
+    }
 
   }
 
   public void returnToHomePage() {
     click(By.linkText("home page"));
+  }
+
+  public void initGoToGroupPage(GroupData group) {
+    wd.findElement(By.cssSelector("a[href='./?group=" + group.getId() + "']")).click();
   }
 
   public void initContactCreation() {
@@ -79,6 +90,22 @@ public class ContactHelper extends HelperBase {
     click(By.name("modifiy"));
   }
 
+  public void initAddToGroupContact() {
+    wd.findElement(By.name("add")).click();
+  }
+
+  public void initRemoveFromGroupContact() {
+    wd.findElement(By.name("remove")).click();
+  }
+
+  public void selectGroupsForContact(GroupData group) {
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(Integer.toString(group.getId()));
+  }
+
+  public void selectGroupsForFilter(GroupData group) {
+    click(By.xpath("//select[@name='group']//option[@value='" + group.getId() + "']"));
+  }
+
   public void create(ContactData contact) {
     initContactCreation();
     fillContactForm(contact, true);
@@ -98,6 +125,21 @@ public class ContactHelper extends HelperBase {
     initContactModification(contact.getId());
     modifyContactsAll(contact);
   }
+
+  public void addToGroup(ContactData contact, GroupData group) {
+    selectContactById(contact.getId());
+    selectGroupsForContact(group);
+    initAddToGroupContact();
+    initGoToGroupPage(group);
+  }
+
+  public void removeFromGroup(ContactData contact, GroupData group) {
+    selectContactById(contact.getId());
+    initRemoveFromGroupContact();
+    initGoToGroupPage(group);
+  }
+
+
 
   public void modifyFromDetails(ContactData contact) {
     initDetailsSelectionContact(contact.getId());
