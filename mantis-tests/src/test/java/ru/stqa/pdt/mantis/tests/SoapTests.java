@@ -1,6 +1,5 @@
 package ru.stqa.pdt.mantis.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pdt.mantis.model.Issue;
 import ru.stqa.pdt.mantis.model.Project;
@@ -16,6 +15,7 @@ public class SoapTests extends TestBase {
 
   @Test
   public void testGetProjects() throws MalformedURLException, RemoteException, ServiceException {
+    skipIfNotFixed(8);
     String adminL = app.getProperty("web.adminLogin");
     String adminP = app.getProperty("web.adminPassword");
     String uRL = app.getProperty("web.mantisconnect");
@@ -37,4 +37,5 @@ public class SoapTests extends TestBase {
     Issue created = app.soap().addIssue(issue, adminL, adminP, uRL);
     assertEquals(issue.getSumary(), created.getSumary());
   }
+  
 }

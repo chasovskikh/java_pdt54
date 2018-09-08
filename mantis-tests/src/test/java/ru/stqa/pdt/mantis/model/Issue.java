@@ -1,5 +1,6 @@
 package ru.stqa.pdt.mantis.model;
 
+
 public class Issue {
 
   private int id;
