@@ -6,6 +6,10 @@
       <module name="mantis-tests_test" target="1.8" />
       <module name="SANDBOX_main" target="1.8" />
       <module name="SANDBOX_test" target="1.8" />
+      <module name="soup-sample-new_main" target="1.8" />
+      <module name="soup-sample-new_test" target="1.8" />
+      <module name="soup-sample_main" target="1.8" />
+      <module name="soup-sample_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
