@@ -37,5 +37,5 @@ public class SoapTests extends TestBase {
     Issue created = app.soap().addIssue(issue, adminL, adminP, uRL);
     assertEquals(issue.getSumary(), created.getSumary());
   }
-  
+
 }
